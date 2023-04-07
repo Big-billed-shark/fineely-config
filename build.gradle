@@ -52,7 +52,7 @@ publishing {
                 // 构件名称
                 // 区别于artifactId，可以理解为artifactName
                 name = 'fineely-config'
-                description = 'The rest interface log collection based on spring aop implementation supports kakfa and openFeign'
+                description = 'A Lightweight System Configuration Framework'
                 url = 'https://github.com/Big-billed-shark/fineely-config'
                 licenses {
                     license {

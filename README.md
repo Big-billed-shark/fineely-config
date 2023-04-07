@@ -37,272 +37,111 @@ implementation 'com.fineely:fineely-config:1.0.0'
 
 Basic usage of the `fineely-config` :
 
+add annotations `@EnableAutoConfigScan`
+
 ```java
-package com.example;
+@EntityScan({"com.fineelyframework", "com.example"})
+@SpringBootApplication(scanBasePackages = {"com.fineelyframework", "com.example"})
+@EnableJpaRepositories(basePackages = {"com.fineelyframework", "com.example"})
+@EnableAutoConfigScan(basePackages = {"com.example"})
+public class WebApplication {
 
-import com.fineelyframework.log.annotation.FineelyLog;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/example")
-public class Example {
-
-    @GetMapping("/hello")
-    @FineelyLog(method = RequestMethod.GET, module = "example", url = "/example/hello")
-    public String hello(String name) {
-        return "Hello: " + name;
+    public static void main(String[] args) {
+        SpringApplication.run(WebApplication.class, args);
     }
 
-    @GetMapping("/name")
-    @FineelyLog(method = RequestMethod.GET, module = "example", desc = "${name}")
-    public String name(String name) {
-        return name;
-    }
 }
 ```
 
-In FineelyLog, annotations have a high-level description configuration
-
-```java
-@Documented
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface FineelyLog {
-
-    /**
-     * Request Method
-     */
-    RequestMethod[] method() default {};
-
-    /**
-     * Module
-     */
-    String module() default "";
-
-    /**
-     * Description
-     * Parameter Name ${name} or ${class.name}
-     * Common parameters are as follows:
-     * 
-     * Method returns a result: ${result.**}
-     * Method name: ${methodName}
-     * Method execution start time: ${startTime}
-     * Method execution end time: ${endTime}
-     * Courtship parameter: ${request.**}
-     * Array matching: ${result.data[0].name}
-     */
-    String desc() default "";
-
-    /**
-     * Request Address
-     */
-    String url() default "";
-}
-```
-
-And an `queue` example `application.yml` configuration file:
-```yaml
-fineely:
-  log:
-    storage-mode: queue
-```
-
-Processing method of the `queue` :
+Implementing the `ConfigSupport` interface
 
 ```java
 package com.example;
 
-/**
- * fineely.log.storageMode = queue
- */
-@Slf4j
-@Component
-public class LogQueueTask {
+import com.fineelyframework.config.core.entity.ConfigSupport;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    @Scheduled(fixedRate = 5000)
-    public void monitorQueueLog(){
-        LinkedTransferQueue<MethodLogEntity> oplogQueue = QueueOperator.INSTANCE.getOplogQueue();
-        if (!oplogQueue.isEmpty()) {
-            // do something
-            List<MethodLogEntity> oplogs = new ArrayList<>();
-            oplogQueue.drainTo(oplogs);
-            for (MethodLogEntity oplog : oplogs) {
-                log.info("::::::: log：[{}]", oplog.toString());
-            }
-        } else {
-            log.info("::::::: No log temporarily");
-        }
-    }
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class SystemConfig implements ConfigSupport {
+
+    private String code = "example";
+
 }
 ```
 
-And an `feign` example `application.yml` configuration file:
+And an `jpa` example `application.yml` configuration file:
 ```yaml
+spring:
+  datasource:
+    url: xxx
+    username: xxx
+    password: xxxx
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
 fineely:
-  log:
-    storage-mode: feign
-    # Choose between the name and url
-    # Without eureka, Please use path
-    feign:
-      # Application Name registered in eureka
-      name: example
-      url: http://localhost:8895
-      path: /test
-# If you need eureka, you can add configurations, set fineely.log.feign.name = target spring.application.name
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:1112/eureka/
-  instance:
-    prefer-ip-address: true
+  config:
+    datasource: jpa
 ```
 
-Processing method of the `feign` :
-
-```java
-public class LogEntity {
-    private String[] method;
-    private String methodName;
-    private String module;
-    private String url;
-    private String desc;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private double timeConsuming;
-    private String allParams;
-    private String result;
-    private String ipAddress;
-    private String exceptionInfo;
-    private String operator;
-    private LocalDateTime createTime;
-}
-
-@RestController
-@RequestMapping("/test")
-public class TestController {
-
-    /**
-     * feign mode mapping url is `save`
-     */
-    @PostMapping("save")
-    public boolean saveLog(@RequestBody LogEntity logEntity) {
-        System.out.println(myEntity.toString());
-        // do something
-        return true;
-    }
-}
-```
-
-And an `kafka` example `application.yml` configuration file:
+And an `mybatis` example `application.yml` configuration file:
 ```yaml
+spring:
+  datasource:
+    url: xxx
+    username: xxx
+    password: xxxx
+    driver-class-name: com.mysql.cj.jdbc.Driver
 fineely:
-  log:
-    storage-mode: kafka
-    kafka:
-      kafka-brokers: 192.168.3.190:9092
-      topic: test-server
-      group-id: e27121ee40c6c6f45f91ab52101b1122
+  config:
+    datasource: mybatis
 ```
-Processing method of the `kafka` :
 
-```java
-@Configuration
-public class KafkaConfig {
+But mybatis does not automatically generate tables, you can use third-party tools or execute SQL
 
-    @Value("${kafka_brokers}")
-    private String KAFKA_BROKERS;
+```sql
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+CREATE TABLE IF
+    NOT EXISTS `config` (
+    `CONFIG_ID` INT ( 11 ) NOT NULL AUTO_INCREMENT COMMENT 'CONFIG_ID',
+    `CONFIG_CODE` VARCHAR ( 64 ) CHARACTER
+    SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Configuration encoding',
+    `LAST_MODIFY_TIME` datetime DEFAULT NULL COMMENT 'Modification time',
+    `CONFIG_VALUE` text CHARACTER
+    SET utf8 COLLATE utf8_general_ci COMMENT 'Configuration values',
+    `CONFIG_CATEGORY` VARCHAR ( 32 ) CHARACTER
+    SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Configuration Category',
+    PRIMARY KEY ( `CONFIG_ID` ) USING BTREE
+    ) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC COMMENT = 'Basic Configuration Table';
+SET FOREIGN_KEY_CHECKS = 1;
+```
 
-    @Bean
-    @ConditionalOnMissingBean(
-            name = {"messageReceiveListener"}
-    )
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> messageReceiveListener() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory(this.consumerConfigs()));
-        factory.setBatchListener(true);
-        factory.getContainerProperties().setPollTimeout(1500L);
-        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
-        factory.setConcurrency(4);
-        return factory;
-    }
+Access after project launch
 
-    private Map<String, Object> consumerConfigs() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.KAFKA_BROKERS);
-        // Other configurations ...
-        return configs;
-    }
-
-}
-
-/**
- * Kafka listener, listening for log notifications
- */
-@Slf4j
-@Component
-public class KafkaMessageHandler {
-
-    @KafkaListener(
-            containerFactory = "messageReceiveListener",
-            topics = {"${topic}"},
-            groupId = "${group-id}"
-    )
-    public void consumerCommonMessageNotify(List<ConsumerRecord<?, ?>> records, Acknowledgment ack) {
-        try {
-            records.forEach(content -> {
-                log.info("=====:::::: Start processing message=====");
-                // do something
-                String message = content.value().toString();
-                log.info(String.format(":::::: Receive message content => %s", message));
-                log.info("=====:::::: Processing Message End=====");
-            });
-        } catch (Exception e) {
-            log.error(":::::: Message processing error => ", e);
-        } finally {
-            ack.acknowledge();
-        }
-    }
-}
+```text
+http://localhost:port/rest/config/getSystemConfig
+http://localhost:port/rest/config/updateSystemConfig
 ```
 
 ## Senior
 
-Custom Implementation Storage
+If you don't want to use `/rest/config/` as a prefix 
 
 ```java
-import com.fineelyframework.log.entity.MethodLogEntity;
-
-/**
- * CustomLogDaoImpl
- * Implement the MethodLogDao interface
- * Yml does not need to add configuration
- */
-@Component
-public class CustomLogDaoImpl implements MethodLogDao {
-
-
-    @Override
-    public boolean saveLog(MethodLogEntity methodLogEntity) {
-        // do something
-        return true;
-    }
-
-}
+// Can modify requestMapping 
+@EnableConfigScan(basePackage = "***", requestMapping = "/rest/config/")
 ```
 
 ## Issue Tracking
 
-Issues, bugs, and feature requests should be submitted to [the issue tracker](https://github.com/Big-billed-shark/fineely-log/issues).
+Issues, bugs, and feature requests should be submitted to [the issue tracker](https://github.com/Big-billed-shark/fineely-config/issues).
 
 Pull requests on GitHub are welcome, but please open a ticket in the issue tracker first, and mention the issue in the pull request.
-
-<!---
-## Contributing
-
-We love contributions!
-Take a look at [our contributing page](CONTRIBUTING.md).
--->#   f i n e e l y - c o n f i g  
- 
