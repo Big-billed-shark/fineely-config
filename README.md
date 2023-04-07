@@ -40,10 +40,10 @@ Basic usage of the `fineely-config` :
 add annotations `@EnableAutoConfigScan`
 
 ```java
-@EntityScan({"com.fineelyframework", "com.example"})
-@SpringBootApplication(scanBasePackages = {"com.fineelyframework", "com.example"})
-@EnableJpaRepositories(basePackages = {"com.fineelyframework", "com.example"})
+@EntityScan({"com.fineelyframework", "com.example"}) // jpa
+@EnableJpaRepositories(basePackages = {"com.fineelyframework", "com.example"}) // jpa
 @EnableAutoConfigScan(basePackages = {"com.example"})
+@SpringBootApplication(scanBasePackages = {"com.fineelyframework", "com.example"})
 public class WebApplication {
 
     public static void main(String[] args) {
@@ -127,8 +127,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 Access after project launch
 
 ```text
-http://localhost:port/rest/config/getSystemConfig
-http://localhost:port/rest/config/updateSystemConfig
+GET http://localhost:port/rest/config/getSystemConfig
+POST http://localhost:port/rest/config/updateSystemConfig
 ```
 
 ## Senior
