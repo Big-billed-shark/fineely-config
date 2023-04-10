@@ -68,8 +68,8 @@ publishing {
                 }
                 scm {
                     url = 'https://github.com/Big-billed-shark/fineely-config'
-                    connection = 'scm:git:https://github.com/Big-billed-shark/fineely-log.git'
-                    developerConnection = 'scm:git:https://github.com/Big-billed-shark/fineely-log.git'
+                    connection = 'scm:git:https://github.com/Big-billed-shark/fineely-config.git'
+                    developerConnection = 'scm:git:https://github.com/Big-billed-shark/fineely-config.git'
                 }
             }
         }

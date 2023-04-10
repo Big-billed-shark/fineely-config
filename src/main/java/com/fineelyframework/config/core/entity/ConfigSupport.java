@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Interface provided for system configuration <p>
- * Add the following annotation to the startup class @{@link EnableAutoConfigScan}
+ * Add the following annotation to the startup class @{@link com.fineelyframework.config.EnableAutoConfigScan}
  * @author  Rey Kepler
  * @see com.fineelyframework.config.EnableAutoConfigScan
  * @since   JDK11
