@@ -1,8 +1,7 @@
 # [Fineely Config](http://www.fineely.com/)
 
 
-The rest interface log collection based on spring aop implementation supports kakfa and openFeign
-
+A Lightweight System Configuration Framework
 
 <!---
 [![build (2.x)](https://img.shields.io/github/actions/workflow/status/apache/logging-log4j2/build.yml?branch=2.x&label=build%20%282.x%29)](https://github.com/apache/logging-log4j2/actions/workflows/build.yml)
@@ -10,7 +9,7 @@ The rest interface log collection based on spring aop implementation supports ka
 ![CodeQL](https://github.com/apache/logging-log4j2/actions/workflows/codeql-analysis.yml/badge.svg)
 -->
 <!---([![Maven Central]&#40;https://img.shields.io/static/v1?label=KeplerLei&message=CSDN&color=red&#41;]&#40;https://blog.csdn.net/leichengjun_510/article/details/129882941&#41;)-->
-[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.0&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.0)
+[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.1&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.1)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/static/v1?label=dependencies&message=update&color=g)
 
 ## Pull Requests on Github
@@ -71,6 +70,8 @@ import lombok.Setter;
 public class SystemConfig implements ConfigSupport {
 
     private String code = "example";
+    
+    // Currently, only basic data types are supported
 
 }
 ```
@@ -127,7 +128,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 Access after project launch
 
 ```text
-GET http://localhost:port/rest/config/getSystemConfig
+GET  http://localhost:port/rest/config/getSystemConfig
 POST http://localhost:port/rest/config/updateSystemConfig
 ```
 
