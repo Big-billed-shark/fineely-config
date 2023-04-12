@@ -72,7 +72,7 @@ public class FineelyConfigServlet extends HttpServlet {
             sb.append(line);
         String configObjString = sb.toString();
         configIntermediary.updateConfigByObject(className, configObjString);
-        responseWriter(response, configObjString);
+        responseWriter(response, true);
     }
 
     private void responseWriter(HttpServletResponse response, Object value) throws IOException {
