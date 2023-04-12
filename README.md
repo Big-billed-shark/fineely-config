@@ -24,12 +24,12 @@ By sending a pull request, you grant KeplerLei sufficient permissions to use and
 <dependency>
     <groupId>com.fineely</groupId>
     <artifactId>fineely-config</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 Gradle users add this to your `build.gradle`.
 ```groovy
-implementation 'com.fineely:fineely-config:1.0.0'
+implementation 'com.fineely:fineely-config:1.0.3'
 ```
 
 ## Usage
