@@ -75,7 +75,7 @@ public class SystemConfig implements ConfigSupport {
 }
 ```
 
-And an `jpa` example `application.yml` configuration file:
+And an `spring data jpa` example `application.yml` configuration file:
 ```yaml
 spring:
   jpa:
