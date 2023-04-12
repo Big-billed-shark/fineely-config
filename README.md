@@ -9,7 +9,7 @@ A Lightweight System Configuration Framework
 ![CodeQL](https://github.com/apache/logging-log4j2/actions/workflows/codeql-analysis.yml/badge.svg)
 -->
 <!---([![Maven Central]&#40;https://img.shields.io/static/v1?label=KeplerLei&message=CSDN&color=red&#41;]&#40;https://blog.csdn.net/leichengjun_510/article/details/129882941&#41;)-->
-[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.1&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.1)
+[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.2&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.2)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/static/v1?label=dependencies&message=update&color=g)
 
 ## Pull Requests on Github
