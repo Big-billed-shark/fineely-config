@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConfigurationProperties(prefix = "fineely.config")
-@AutoConfigureAfter(MybatisPlusConfig.class)
+@AutoConfigureAfter({MybatisPlusConfig.class, JpaConfig.class})
 public class DatasourceConfig {
 
     private String datasource = "";

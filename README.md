@@ -39,10 +39,8 @@ Basic usage of the `fineely-config` :
 add annotations `@EnableAutoConfigScan`
 
 ```java
-@EntityScan({"com.fineelyframework", "com.example"}) // jpa
-@EnableJpaRepositories(basePackages = {"com.fineelyframework", "com.example"}) // jpa
-@EnableAutoConfigScan(basePackages = {"com.example"})
-@SpringBootApplication(scanBasePackages = {"com.fineelyframework", "com.example"})
+@EnableAutoConfigScan({"com.example"}) // configure the package path of the class
+@SpringBootApplication(scanBasePackages = {"com.example"})
 public class WebApplication {
 
     public static void main(String[] args) {
@@ -52,7 +50,8 @@ public class WebApplication {
 }
 ```
 
-Implementing the `ConfigSupport` interface
+Implementing the `ConfigSupport` interface.
+Will automatically generate `get[class name]` and `update[class name]`.
 
 ```java
 package com.example;
@@ -79,11 +78,6 @@ public class SystemConfig implements ConfigSupport {
 And an `jpa` example `application.yml` configuration file:
 ```yaml
 spring:
-  datasource:
-    url: xxx
-    username: xxx
-    password: xxxx
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -94,18 +88,12 @@ fineely:
 
 And an `mybatis` example `application.yml` configuration file:
 ```yaml
-spring:
-  datasource:
-    url: xxx
-    username: xxx
-    password: xxxx
-    driver-class-name: com.mysql.cj.jdbc.Driver
 fineely:
   config:
     datasource: mybatis
 ```
 
-But mybatis does not automatically generate tables, you can use third-party tools or execute SQL
+But `mybatis` does not automatically generate tables, you can use third-party tools or execute SQL
 
 ```sql
 SET NAMES utf8mb4;

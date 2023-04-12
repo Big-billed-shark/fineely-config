@@ -1,5 +1,6 @@
 package com.fineelyframework.config;
 
+import com.fineelyframework.config.core.config.DatasourceConfig;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
@@ -18,7 +19,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(FineelyConfigAnnotationRegistry.class)
+@Import({DatasourceConfig.class, FineelyConfigAnnotationRegistry.class})
 public @interface EnableAutoConfigScan {
 
     /**
