@@ -57,6 +57,7 @@ public @interface EnableAutoConfigScan {
 
     /**
      * Request mapping prefix. That's it @RequestMapping value, default /rest/config/.
+     * @return requestMapping
      */
     String requestMapping() default "/rest/config/";
 }
