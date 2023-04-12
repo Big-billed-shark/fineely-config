@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
- * @author Rey Kepler todo 待改造
+ * @author Rey Kepler
  */
 @Entity
 @DynamicInsert
@@ -20,35 +20,20 @@ public class Config implements Serializable {
 
     private static final long serialVersionUID = 3434155825314659842L;
 
-    /**
-     * 配置主键
-     */
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(unique = true, nullable = false, length = 10)
     private int configId;
 
-    /**
-     * 配置类别
-     */
     @Column(nullable = false, length = 64)
     private String configCategory;
 
-    /**
-     * 配置编码
-     */
     @Column(nullable = false, length = 64)
     private String configCode;
 
-    /**
-     * 配置值
-     */
     @Column
     private String configValue;
 
-    /**
-     * 最后一次编辑时间
-     */
     @Column(nullable = false)
     private LocalDateTime lastModifyTime;
 

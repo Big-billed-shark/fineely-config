@@ -12,9 +12,6 @@ import javax.persistence.*;
 @TableName("config")
 public class ConfigPlus extends Config {
 
-    /**
-     * 配置主键
-     */
     @TableId(type = IdType.AUTO)
     private Integer configId;
 

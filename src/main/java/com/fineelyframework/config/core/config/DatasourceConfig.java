@@ -8,14 +8,16 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * fineely配置类
+ * fineely configuration
  */
 @Configuration
 @ConfigurationProperties(prefix = "fineely.config")
 @AutoConfigureAfter({MybatisPlusConfig.class, JpaConfig.class})
+@ComponentScan({"com.fineelyframework"})
 public class DatasourceConfig {
 
     private String datasource = "";

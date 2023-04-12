@@ -19,9 +19,6 @@ public class ConfigServicePlusImpl implements ConfigService {
     @Autowired
     private ConfigMapper configMapper;
 
-    /**
-     * 更新Config
-     **/
     public <T extends ConfigSupport> void update(T configSupport) {
         Field[] fields = configSupport.getClass().getDeclaredFields();
         String configCategory = configSupport.getClass().getSimpleName();
@@ -47,9 +44,6 @@ public class ConfigServicePlusImpl implements ConfigService {
         }
     }
 
-    /**
-     * 获得Config
-     **/
     public <T extends ConfigSupport> T get(T configSupport) {
         Field[] fields = configSupport.getClass().getDeclaredFields();
         String configCategory = configSupport.getClass().getSimpleName();
