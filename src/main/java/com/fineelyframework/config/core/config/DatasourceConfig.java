@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * fineely configuration
+ * fineely Datasource configuration
  */
 @Configuration
 @ConfigurationProperties(prefix = "fineely.config")

@@ -3,14 +3,13 @@ package com.fineelyframework.config.core.service;
 
 import com.fineelyframework.config.core.dao.ConfigDao;
 import com.fineelyframework.config.core.entity.ConfigSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 @Transactional
 public class ConfigServiceImpl implements ConfigService {
 
-    @Resource
+    @Autowired
     private ConfigDao configDao;
 
 

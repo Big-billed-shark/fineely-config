@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "fineely.config", name = "datasource", havingValue = "mybatis")
 @MapperScan(basePackages ={"com.fineelyframework.config.core.dao"})
 public class MybatisPlusConfig {
-
 }
