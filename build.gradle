@@ -21,7 +21,7 @@ artifacts {
 }
 
 group 'com.fineely'
-version '1.0.3'
+version '1.0.4'
 def artifactId = "fineely-config"
 archivesBaseName = artifactId
 sourceCompatibility = '11'
