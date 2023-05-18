@@ -12,6 +12,9 @@ A Lightweight System Configuration Framework
 [![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.5&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.5)
 [![CSDN](https://img.shields.io/static/v1?label=KeplerLei&message=CSDN&color=red)](https://blog.csdn.net/leichengjun_510/article/details/130108951)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/static/v1?label=dependencies&message=update&color=g)
+[![MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/Big-billed-shark/fineely-config/blob/main/LICENSE)
+[![Maven Central](https://img.shields.io/static/v1?label=Stars&logo=github&message=3&color=grey)](https://github.com/Big-billed-shark/fineely-config)
+[![Gitee](https://img.shields.io/static/v1?label=Stars&logo=gitee&message=1&color=grey)](https://gitee.com/kepler_16b/fineely-config)
 
 ## Pull Requests on Github
 
