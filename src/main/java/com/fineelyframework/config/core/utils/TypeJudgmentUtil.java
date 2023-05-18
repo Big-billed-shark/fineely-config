@@ -92,6 +92,8 @@ public class TypeJudgmentUtil {
                 } else {
                     field.set(configSupport, null);
                 }
+            } else if (typeClass == Object.class) {
+                // todo
             } else {
                 field.set(configSupport, configValue);
             }

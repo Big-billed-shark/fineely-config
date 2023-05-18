@@ -8,6 +8,7 @@ import com.fineelyframework.config.core.utils.TypeJudgmentUtil;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Mapper
 public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
 
+    @Override
     default <T extends ConfigSupport> void update(T configSupport) {
         Field[] fields = configSupport.getClass().getDeclaredFields();
         String configCategory = configSupport.getClass().getSimpleName();
@@ -41,6 +43,7 @@ public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
         }
     }
 
+    @Override
     default <T extends ConfigSupport> T get(T configSupport) {
         Field[] fields = configSupport.getClass().getDeclaredFields();
         String configCategory = configSupport.getClass().getSimpleName();
@@ -60,6 +63,12 @@ public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
         }
 
         return configSupport;
+    }
+
+    @Override
+    default <T extends ConfigSupport> T get(Class<T> tClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        T t = tClass.getDeclaredConstructor().newInstance();
+        return this.get(t);
     }
 
     private List<ConfigPlus> getConfigByCategoryAndCode(String configCategory, Object[] configCodes) {

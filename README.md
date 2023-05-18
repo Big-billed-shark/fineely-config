@@ -130,6 +130,24 @@ If you don't want to use `/rest/config/` as a prefix
 @EnableConfigScan(basePackage = "***", requestMapping = "/rest/config/")
 ```
 
+```java
+    // Used alone 
+    @Autowired
+    private ConfigService configService;
+
+    public String get() {
+        SystemConfig systemConfig = configService.get(new SystemConfig());
+        return systemConfig.getCode();
+    }
+
+    public String update() {
+        SystemConfig config = new SystemConfig();
+        config.setCode("1");
+        configService.update(config);
+        return "ok";
+    }
+```
+
 ## Issue Tracking
 
 Issues, bugs, and feature requests should be submitted to [the issue tracker](https://github.com/Big-billed-shark/fineely-config/issues).
