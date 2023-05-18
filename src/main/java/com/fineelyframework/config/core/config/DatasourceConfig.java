@@ -1,8 +1,8 @@
 package com.fineelyframework.config.core.config;
 
-import com.fineelyframework.config.core.service.ConfigService;
-import com.fineelyframework.config.core.service.ConfigServiceImpl;
-import com.fineelyframework.config.core.service.ConfigServicePlusImpl;
+import com.fineelyframework.config.core.service.FineelyConfigServiceImpl;
+import com.fineelyframework.config.core.service.FineelyConfigService;
+import com.fineelyframework.config.core.service.FineelyConfigServicePlusImpl;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,14 +24,14 @@ public class DatasourceConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public ConfigService configService() {
+    public FineelyConfigService fineelyConfigService() {
         switch (datasource) {
             case "mybatis":
-                return new ConfigServicePlusImpl();
+                return new FineelyConfigServicePlusImpl();
             case "jpa":
-                return new ConfigServiceImpl();
+                return new FineelyConfigServiceImpl();
             default:
-                throw new BeanCreationException(ConfigService.class.getSimpleName(),
+                throw new BeanCreationException(FineelyConfigService.class.getSimpleName(),
                         "missing configuration \"fineely.config.datasource\", Please fill in \"mybatis\" or \"jpa\"");
         }
     }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.lang.reflect.InvocationTargetException;
 
 
-public class ConfigServicePlusImpl implements ConfigService {
+public class FineelyConfigServicePlusImpl implements FineelyConfigService {
 
     @Autowired
     private ConfigMapper configMapper;

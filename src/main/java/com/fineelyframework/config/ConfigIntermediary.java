@@ -2,7 +2,7 @@ package com.fineelyframework.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fineelyframework.config.core.entity.ConfigSupport;
-import com.fineelyframework.config.core.service.ConfigService;
+import com.fineelyframework.config.core.service.FineelyConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ public class ConfigIntermediary {
      * Configure service get configuration.
      */
     @Autowired
-    private ConfigService configService;
+    private FineelyConfigService fineelyConfigService;
 
     /**
      * Configure class package name, key is class name, value is class package name.
@@ -42,7 +42,7 @@ public class ConfigIntermediary {
     public ConfigSupport getConfigByObject(String className) {
         try {
             ConfigSupport myInstance = (ConfigSupport) Class.forName(packageMap.get(className)).getDeclaredConstructor().newInstance();
-            return configService.get(myInstance);
+            return fineelyConfigService.get(myInstance);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -59,17 +59,17 @@ public class ConfigIntermediary {
     public void updateConfigByObject(String className, String configObjString) {
         try {
             Class<?> aClass = Class.forName(packageMap.get(className));
-            configService.update((ConfigSupport) JSONObject.parseObject(configObjString, aClass));
+            fineelyConfigService.update((ConfigSupport) JSONObject.parseObject(configObjString, aClass));
         } catch (Exception ignored) {
         }
     }
 
-    public ConfigService getConfigService() {
-        return configService;
+    public FineelyConfigService getFineelyConfigService() {
+        return fineelyConfigService;
     }
 
-    public void setConfigService(ConfigService configService) {
-        this.configService = configService;
+    public void setFineelyConfigService(FineelyConfigService fineelyConfigService) {
+        this.fineelyConfigService = fineelyConfigService;
     }
 
     public String getRequestMapping() {

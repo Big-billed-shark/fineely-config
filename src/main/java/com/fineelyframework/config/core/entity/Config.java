@@ -15,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table
+@Table(name = "config")
 public class Config implements Serializable {
 
     private static final long serialVersionUID = 3434155825314659842L;

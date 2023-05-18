@@ -5,7 +5,7 @@ import com.fineelyframework.config.core.entity.ConfigSupport;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface ConfigService {
+public interface FineelyConfigService {
 
     <T extends ConfigSupport> void update(T configObj);
 

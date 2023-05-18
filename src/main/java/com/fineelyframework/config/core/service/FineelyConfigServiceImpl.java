@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.InvocationTargetException;
 
 @Transactional
-public class ConfigServiceImpl implements ConfigService {
+public class FineelyConfigServiceImpl implements FineelyConfigService {
 
     @Autowired
     private ConfigDao configDao;

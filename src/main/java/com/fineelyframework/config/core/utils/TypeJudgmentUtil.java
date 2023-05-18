@@ -1,11 +1,15 @@
 package com.fineelyframework.config.core.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class TypeJudgmentUtil {
 
@@ -27,6 +31,17 @@ public class TypeJudgmentUtil {
         return configValue;
     }
 
+    public static boolean isBasicType(Class typeClass) {
+        return typeClass == int.class || typeClass == short.class || typeClass == byte.class ||
+                typeClass == float.class || typeClass == double.class || typeClass == long.class ||
+                typeClass == String.class || typeClass == boolean.class || typeClass.isEnum() ||
+                typeClass == LocalDateTime.class || typeClass == LocalDate.class || typeClass == LocalTime.class ||
+                typeClass == Integer.class || typeClass == Boolean.class || typeClass == Long.class ||
+                typeClass == Double.class || typeClass == Float.class || typeClass == Byte.class ||
+                typeClass == Short.class;
+
+    }
+
     public static <T extends ConfigSupport> void set(T configSupport, Field field, String configValue) {
         try {
             Class typeClass = field.getType();
@@ -41,6 +56,12 @@ public class TypeJudgmentUtil {
                     field.setShort(configSupport, Short.parseShort(configValue));
                 } else {
                     field.set(configSupport, 0);
+                }
+            } else if (typeClass == char.class) {
+                if (configValue != null) {
+                    field.setChar(configSupport, configValue.charAt(0));
+                } else {
+                    field.set(configSupport, null);
                 }
             } else if (typeClass == byte.class) {
                 if (configValue != null) {
@@ -92,8 +113,36 @@ public class TypeJudgmentUtil {
                 } else {
                     field.set(configSupport, null);
                 }
-            } else if (typeClass == Object.class) {
-                // todo
+            } else if (typeClass == LocalTime.class) {
+                if (configValue != null) {
+                    field.set(configSupport, LocalTime.parse(configValue, DateTimeFormatter.ofPattern("HH:mm:ss")));
+                } else {
+                    field.set(configSupport, null);
+                }
+            } else if (typeClass == List.class) {
+                if (configValue != null) {
+                    field.set(configSupport, JSONArray.parseArray(configValue, Object.class));
+                } else {
+                    field.set(configSupport, new ArrayList<>());
+                }
+            } else if (typeClass == Map.class) {
+                if (configValue != null) {
+                    field.set(configSupport, JSONObject.parseObject(configValue, Map.class));
+                } else {
+                    field.set(configSupport, new HashMap<>());
+                }
+            } else if (!isBasicType(typeClass)) {
+                if (configValue != null) {
+                    field.set(configSupport, JSONObject.parseObject(configValue, typeClass));
+                } else {
+                    field.set(configSupport, new HashMap<>());
+                }
+            } else if (typeClass == Set.class) {
+                if (configValue != null) {
+                    field.set(configSupport, JSONObject.parseObject(configValue, Set.class));
+                } else {
+                    field.set(configSupport, new HashMap<>());
+                }
             } else {
                 field.set(configSupport, configValue);
             }

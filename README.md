@@ -9,7 +9,7 @@ A Lightweight System Configuration Framework
 ![CodeQL](https://github.com/apache/logging-log4j2/actions/workflows/codeql-analysis.yml/badge.svg)
 -->
 <!---([![Maven Central]&#40;https://img.shields.io/static/v1?label=KeplerLei&message=CSDN&color=red&#41;]&#40;https://blog.csdn.net/leichengjun_510/article/details/129882941&#41;)-->
-[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.4&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.4)
+[![Maven Central](https://img.shields.io/static/v1?label=maven-central&message=v1.0.5&color=blue)](https://central.sonatype.com/artifact/com.fineely/fineely-config/1.0.5)
 [![CSDN](https://img.shields.io/static/v1?label=KeplerLei&message=CSDN&color=red)](https://blog.csdn.net/leichengjun_510/article/details/130108951)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/static/v1?label=dependencies&message=update&color=g)
 
@@ -25,12 +25,12 @@ By sending a pull request, you grant KeplerLei sufficient permissions to use and
 <dependency>
     <groupId>com.fineely</groupId>
     <artifactId>fineely-config</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 Gradle users add this to your `build.gradle`.
 ```groovy
-implementation 'com.fineely:fineely-config:1.0.4'
+implementation 'com.fineely:fineely-config:1.0.5'
 ```
 
 ## Usage
@@ -133,17 +133,17 @@ If you don't want to use `/rest/config/` as a prefix
 ```java
     // Used alone 
     @Autowired
-    private ConfigService configService;
+    private FineelyConfigService fineelyConfigService;
 
     public String get() {
-        SystemConfig systemConfig = configService.get(new SystemConfig());
+        SystemConfig systemConfig = fineelyConfigService.get(new SystemConfig());
         return systemConfig.getCode();
     }
 
     public String update() {
         SystemConfig config = new SystemConfig();
         config.setCode("1");
-        configService.update(config);
+        fineelyConfigService.update(config);
         return "ok";
     }
 ```

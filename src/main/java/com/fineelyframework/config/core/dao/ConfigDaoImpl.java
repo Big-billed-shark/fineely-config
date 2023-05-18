@@ -1,6 +1,8 @@
 package com.fineelyframework.config.core.dao;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fineelyframework.config.core.entity.Config;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 import com.fineelyframework.config.core.utils.TypeJudgmentUtil;
@@ -13,9 +15,7 @@ import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class ConfigDaoImpl implements ConfigDaoPlus {
 
@@ -36,7 +36,23 @@ public class ConfigDaoImpl implements ConfigDaoPlus {
                 if (optional.isPresent()) {
                     Config config = optional.get();
                     config.setLastModifyTime(LocalDateTime.now());
-                    config.setConfigValue(Objects.isNull(configValue) ? null : configValue.toString());
+                    String value;
+                    if (Objects.isNull(configValue)) {
+                        value = null;
+                    } else {
+                        if (configValue instanceof List) {
+                            value = JSONArray.toJSONString(configValue);
+                        } else if (configValue instanceof Map) {
+                            value = JSONObject.toJSONString(configValue);
+                        } else if (configValue instanceof Set) {
+                            value = JSONObject.toJSONString(configValue);
+                        } else if (TypeJudgmentUtil.isBasicType(configValue.getClass())) {
+                            value = configValue.toString();
+                        } else {
+                            value = JSONObject.toJSONString(configValue);
+                        }
+                    }
+                    config.setConfigValue(value);
                 } else {
                     Config config = new Config(configCategory, configCode, configValue);
                     entityManager.persist(config);

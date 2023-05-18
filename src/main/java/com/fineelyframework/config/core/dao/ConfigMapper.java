@@ -1,5 +1,7 @@
 package com.fineelyframework.config.core.dao;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fineelyframework.config.core.entity.ConfigPlus;
@@ -10,9 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Mapper
 public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
@@ -31,8 +31,23 @@ public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
                 if (optional.isPresent()) {
                     ConfigPlus config = optional.get();
                     config.setLastModifyTime(LocalDateTime.now());
-                    config.setConfigValue(Objects.isNull(configValue) ? null : configValue.toString());
-                    this.updateById(config);
+                    String value;
+                    if (Objects.isNull(configValue)) {
+                        value = null;
+                    } else {
+                        if (configValue instanceof List) {
+                            value = JSONArray.toJSONString(configValue);
+                        } else if (configValue instanceof Map) {
+                            value = JSONObject.toJSONString(configValue);
+                        } else if (configValue instanceof Set) {
+                            value = JSONObject.toJSONString(configValue);
+                        } else if (TypeJudgmentUtil.isBasicType(configValue.getClass())) {
+                            value = configValue.toString();
+                        } else {
+                            value = JSONObject.toJSONString(configValue);
+                        }
+                    }
+                    config.setConfigValue(value);                    this.updateById(config);
                 } else {
                     ConfigPlus config = new ConfigPlus(configCategory, configCode, configValue);
                     this.insert(config);
