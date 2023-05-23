@@ -31,23 +31,8 @@ public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
                 if (optional.isPresent()) {
                     ConfigPlus config = optional.get();
                     config.setLastModifyTime(LocalDateTime.now());
-                    String value;
-                    if (Objects.isNull(configValue)) {
-                        value = null;
-                    } else {
-                        if (configValue instanceof List) {
-                            value = JSONArray.toJSONString(configValue);
-                        } else if (configValue instanceof Map) {
-                            value = JSONObject.toJSONString(configValue);
-                        } else if (configValue instanceof Set) {
-                            value = JSONObject.toJSONString(configValue);
-                        } else if (TypeJudgmentUtil.isBasicType(configValue.getClass())) {
-                            value = configValue.toString();
-                        } else {
-                            value = JSONObject.toJSONString(configValue);
-                        }
-                    }
-                    config.setConfigValue(value);                    this.updateById(config);
+                    config.setConfigValue(TypeJudgmentUtil.toJsonString(configValue));
+                    this.updateById(config);
                 } else {
                     ConfigPlus config = new ConfigPlus(configCategory, configCode, configValue);
                     this.insert(config);
@@ -72,11 +57,10 @@ public interface ConfigMapper extends BaseMapper<ConfigPlus>, ConfigDaoPlus {
                 TypeJudgmentUtil.set(configSupport, field, optional.get().getConfigValue());
             } else {
                 Object configValue = TypeJudgmentUtil.get(configSupport, field);
-                ConfigPlus config = new ConfigPlus(configCategory, configCode, configValue);
+                ConfigPlus config = new ConfigPlus(configCategory, configCode, TypeJudgmentUtil.toJsonString(configValue));
                 this.insert(config);
             }
         }
-
         return configSupport;
     }
 

@@ -1,7 +1,7 @@
 package com.fineelyframework.config.core.utils;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 
 import java.lang.reflect.Field;
@@ -29,6 +29,24 @@ public class TypeJudgmentUtil {
             e.printStackTrace();
         }
         return configValue;
+    }
+
+    public static String toJsonString(Object configValue) {
+        String value;
+        if (Objects.isNull(configValue)) {
+            value = null;
+        } else if (configValue instanceof List) {
+            value = com.alibaba.fastjson2.JSONArray.toJSONString(configValue);
+        } else if (configValue instanceof Map) {
+            value = com.alibaba.fastjson2.JSONObject.toJSONString(configValue);
+        } else if (configValue instanceof Set) {
+            value = com.alibaba.fastjson2.JSONObject.toJSONString(configValue);
+        } else if (TypeJudgmentUtil.isBasicType(configValue.getClass())) {
+            value = configValue.toString();
+        } else {
+            value = com.alibaba.fastjson2.JSONObject.from(configValue).toString();
+        }
+        return value;
     }
 
     public static boolean isBasicType(Class typeClass) {
@@ -120,23 +138,24 @@ public class TypeJudgmentUtil {
                     field.set(configSupport, null);
                 }
             } else if (typeClass == List.class) {
-                if (configValue != null) {
+                if (configValue != null && !"[]".equals(configValue)) {
                     field.set(configSupport, JSONArray.parseArray(configValue, Object.class));
                 } else {
                     field.set(configSupport, new ArrayList<>());
                 }
             } else if (typeClass == Map.class) {
                 if (configValue != null) {
-                    field.set(configSupport, JSONObject.parseObject(configValue, Map.class));
+                    field.set(configSupport, com.alibaba.fastjson2.JSONObject.parseObject(configValue, Map.class));
                 } else {
                     field.set(configSupport, new HashMap<>());
                 }
             } else if (!isBasicType(typeClass)) {
-                if (configValue != null) {
-                    field.set(configSupport, JSONObject.parseObject(configValue, typeClass));
-                } else {
-                    field.set(configSupport, new HashMap<>());
-                }
+                field.set(configSupport, null);
+//                if (configValue != null) {
+//                    field.set(configSupport, JSON.parseObject(configValue,typeClass));
+//                } else {
+//                    field.set(configSupport, null);
+//                }
             } else if (typeClass == Set.class) {
                 if (configValue != null) {
                     field.set(configSupport, JSONObject.parseObject(configValue, Set.class));

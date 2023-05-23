@@ -1,6 +1,6 @@
 package com.fineelyframework.config;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 import com.fineelyframework.config.core.service.FineelyConfigService;
 import org.springframework.beans.factory.annotation.Autowired;

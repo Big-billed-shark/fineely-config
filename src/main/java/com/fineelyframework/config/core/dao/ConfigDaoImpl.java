@@ -36,23 +36,7 @@ public class ConfigDaoImpl implements ConfigDaoPlus {
                 if (optional.isPresent()) {
                     Config config = optional.get();
                     config.setLastModifyTime(LocalDateTime.now());
-                    String value;
-                    if (Objects.isNull(configValue)) {
-                        value = null;
-                    } else {
-                        if (configValue instanceof List) {
-                            value = JSONArray.toJSONString(configValue);
-                        } else if (configValue instanceof Map) {
-                            value = JSONObject.toJSONString(configValue);
-                        } else if (configValue instanceof Set) {
-                            value = JSONObject.toJSONString(configValue);
-                        } else if (TypeJudgmentUtil.isBasicType(configValue.getClass())) {
-                            value = configValue.toString();
-                        } else {
-                            value = JSONObject.toJSONString(configValue);
-                        }
-                    }
-                    config.setConfigValue(value);
+                    config.setConfigValue(TypeJudgmentUtil.toJsonString(configValue));
                 } else {
                     Config config = new Config(configCategory, configCode, configValue);
                     entityManager.persist(config);
@@ -80,7 +64,7 @@ public class ConfigDaoImpl implements ConfigDaoPlus {
                 TypeJudgmentUtil.set(configSupport, field, optional.get().getConfigValue());
             } else {
                 Object configValue = TypeJudgmentUtil.get(configSupport, field);
-                Config config = new Config(configCategory, configCode, configValue);
+                Config config = new Config(configCategory, configCode, TypeJudgmentUtil.toJsonString(configValue));
                 entityManager.persist(config);
             }
         }

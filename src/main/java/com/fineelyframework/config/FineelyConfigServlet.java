@@ -1,6 +1,6 @@
 package com.fineelyframework.config;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.fineelyframework.config.core.entity.ConfigSupport;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.WebApplicationContext;
@@ -80,7 +80,7 @@ public class FineelyConfigServlet extends HttpServlet {
     private void responseWriter(HttpServletResponse response, Object value) throws IOException {
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().print(JSONObject.toJSONString(value));
+        response.getWriter().print(value instanceof Boolean ? JSONObject.toJSONString(value) : JSONObject.from(value).toString());
     }
 
 }
