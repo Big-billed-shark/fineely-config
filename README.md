@@ -134,21 +134,21 @@ If you don't want to use `/rest/config/` as a prefix
 ```
 
 ```java
-    // Used alone 
-    @Autowired
-    private FineelyConfigService fineelyConfigService;
+// Used alone 
+@Autowired
+private FineelyConfigService fineelyConfigService;
 
-    public String get() {
-        SystemConfig systemConfig = fineelyConfigService.get(new SystemConfig());
-        return systemConfig.getCode();
-    }
+public String get() {
+    SystemConfig systemConfig = fineelyConfigService.get(new SystemConfig());
+    return systemConfig.getCode();
+}
 
-    public String update() {
-        SystemConfig config = new SystemConfig();
-        config.setCode("1");
-        fineelyConfigService.update(config);
-        return "ok";
-    }
+public String update() {
+    SystemConfig config = new SystemConfig();
+    config.setCode("1");
+    fineelyConfigService.update(config);
+    return "ok";
+}
 ```
 
 ## Issue Tracking
